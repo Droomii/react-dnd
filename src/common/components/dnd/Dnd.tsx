@@ -28,7 +28,7 @@ interface DndContextProps {
 const Dnd = createContext<DndContextProps | null>(null);
 
 interface ProviderProps {
-	onMove: (itemSn: number, fromGroupSn: number, toGroupSn: number, index: number) => void;
+	onMove: (itemSn: number, fromGroupSn: number, toGroupSn: number, index?: number) => void;
 	dropIndicator: ReactNode;
 }
 
@@ -44,8 +44,8 @@ export const DndController = (props: PropsWithChildren<ProviderProps>) => {
 	const handleStopDragging = () => {
 		const dragItemInfo = draggingItemInfo.current;
 		if (dragItemInfo && dropDestinationSn) {
-			const index = (shiftedItem?.index ?? 0) + Number(shiftedItem?.direction === 'before');
-			props.onMove(dragItemInfo.sn, dragItemInfo.droppableSn, dropDestinationSn, index);
+			const index = shiftedItem && (shiftedItem.index ?? 0) + Number(shiftedItem.direction === 'before');
+			props.onMove(dragItemInfo.sn, dragItemInfo.droppableSn, dropDestinationSn, index ?? undefined);
 		}
 
 		draggingItemInfo.current = null;

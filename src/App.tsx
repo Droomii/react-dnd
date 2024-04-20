@@ -17,12 +17,12 @@ const defaultData: Data[] = [
 function App() {
 	const [data, setData] = useState<Data[]>(defaultData);
 
-	const handleMove = (itemSn: number, fromGroupSn: number, toGroupSn: number, index: number) => {
+	const handleMove = (itemSn: number, fromGroupSn: number, toGroupSn: number, index?: number) => {
 		if (fromGroupSn === toGroupSn) {
 			setData(data.map(({ groupSn, items, name }) => ({
 				name,
 				groupSn,
-				items: groupSn === fromGroupSn ? [...items.slice(0, index).filter(v => v !== itemSn), itemSn, ...items.slice(index).filter(v => v !== itemSn)] : items
+				items: groupSn === fromGroupSn ? [...items.slice(0, index ?? items.length).filter(v => v !== itemSn), itemSn, ...items.slice(index ?? items.length).filter(v => v !== itemSn)] : items
 			})));
 			return;
 		}
@@ -30,7 +30,7 @@ function App() {
 		setData(data.map(({ groupSn, items, name }) => ({
 			name,
 			groupSn,
-			items: groupSn === fromGroupSn ? items.filter(v => v !== itemSn) : groupSn === toGroupSn ? [...items.slice(0, index), itemSn, ...items.slice(index)] : items
+			items: groupSn === fromGroupSn ? items.filter(v => v !== itemSn) : groupSn === toGroupSn ? [...items.slice(0, index ?? items.length), itemSn, ...items.slice(index ?? items.length)] : items
 		})));
 	};
 
